@@ -95,10 +95,8 @@ No frontend framework or JavaScript package manager is required.
 
 ### 1. Clone the repository
 
-Replace `YOUR_USERNAME` with your GitHub username.
-
 ```bash
-git clone https://github.com/YOUR_USERNAME/studyflow-study-planner.git
+git clone https://github.com/vishal-git-dot/studyflow-study-planner.git
 cd studyflow-study-planner
 ```
 
