@@ -1,0 +1,6 @@
+# If Apache serves the project root, prevent direct access to private folders.
+Options -Indexes
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteRule ^(config|includes|database)/ - [F,L,NC]
+</IfModule>

@@ -1,0 +1,5 @@
+StudyFlow starter application
+Copyright (c) 2026.
+
+You may use, modify, and distribute this starter code for learning and project development.
+No warranty is provided. See README.md for deployment and security notes.

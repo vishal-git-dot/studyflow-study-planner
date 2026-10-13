@@ -1,0 +1,43 @@
+CREATE DATABASE IF NOT EXISTS studyflow
+  CHARACTER SET utf8mb4
+  COLLATE utf8mb4_unicode_ci;
+USE studyflow;
+
+CREATE TABLE IF NOT EXISTS users (
+  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(80) NOT NULL,
+  email VARCHAR(190) NOT NULL UNIQUE,
+  password_hash VARCHAR(255) NOT NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS subjects (
+  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  user_id BIGINT UNSIGNED NOT NULL,
+  name VARCHAR(100) NOT NULL,
+  description VARCHAR(500) NULL,
+  color CHAR(7) NOT NULL DEFAULT '#6259d9',
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  CONSTRAINT fk_subjects_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+  INDEX idx_subjects_user (user_id)
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS study_tasks (
+  id BIGINT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+  user_id BIGINT UNSIGNED NOT NULL,
+  subject_id BIGINT UNSIGNED NULL,
+  title VARCHAR(180) NOT NULL,
+  description TEXT NULL,
+  due_date DATE NULL,
+  priority ENUM('low','medium','high') NOT NULL DEFAULT 'medium',
+  status ENUM('pending','completed') NOT NULL DEFAULT 'pending',
+  completed_at DATETIME NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  CONSTRAINT fk_tasks_user FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+  CONSTRAINT fk_tasks_subject FOREIGN KEY (subject_id) REFERENCES subjects(id) ON DELETE SET NULL,
+  INDEX idx_tasks_user_status (user_id, status),
+  INDEX idx_tasks_user_due (user_id, due_date),
+  INDEX idx_tasks_subject (subject_id)
+) ENGINE=InnoDB;
